@@ -2,7 +2,10 @@
 title: "Reproducible Data Project"
 author: "John Cartmill"
 date: "Sunday, January 18, 2015"
-output: html_document
+output:
+  html_document:
+    fig_caption: yes
+    keep_md: yes
 ---
 
 

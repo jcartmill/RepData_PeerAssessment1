@@ -1,9 +1,6 @@
----
-title: "Reproducible Data Project"
-author: "John Cartmill"
-date: "Sunday, January 18, 2015"
-output: html_document
----
+# Reproducible Data Project
+John Cartmill  
+Sunday, January 18, 2015  
 
 
 
@@ -56,7 +53,7 @@ colnames(totalSteps)<-c("date","steps")
 ggplot(totalSteps, aes(x=factor(0),y=steps)) + geom_boxplot() +xlab("") +ylab("Steps")
 ```
 
-![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3.png) 
+![plot of chunk unnamed-chunk-3](./PA1_template_files/figure-html/unnamed-chunk-3.png) 
 </td>
 <td>
 
@@ -65,7 +62,7 @@ ggplot(totalSteps, aes(x=factor(0),y=steps)) + geom_boxplot() +xlab("") +ylab("S
 ggplot(totalSteps, aes(x=steps)) + geom_histogram(binwidth=2000,colour="black", fill="white") + xlab("Total steps per day") + ylab("Count")
 ```
 
-![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4.png) 
+![plot of chunk unnamed-chunk-4](./PA1_template_files/figure-html/unnamed-chunk-4.png) 
 </td>
 </tr>
 </table>
@@ -86,7 +83,7 @@ text(0.5,0.3, "Steps")
 setday<-cal(11,2012)
 ```
 
-![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-51.png) 
+![plot of chunk unnamed-chunk-5](./PA1_template_files/figure-html/unnamed-chunk-51.png) 
 
 ```r
 for (i in 1:30){
@@ -99,7 +96,7 @@ text(0.5,0.3, "Steps")
 }
 ```
 
-![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-52.png) 
+![plot of chunk unnamed-chunk-5](./PA1_template_files/figure-html/unnamed-chunk-52.png) 
 
 
 ### Daily Activity Pattern
@@ -120,13 +117,13 @@ medianIntSteps$dt<-as.POSIXct(strptime(medianIntSteps$time,format("%H:%M")))
 ggplot (meanIntSteps,aes(x=dt,y=steps)) + geom_line()+ xlab("5 minute interval time") + ylab("Number of Steps") + scale_x_datetime(labels = date_format("%H:%M"))
 ```
 
-![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-71.png) 
+![plot of chunk unnamed-chunk-7](./PA1_template_files/figure-html/unnamed-chunk-71.png) 
 
 ```r
 ggplot (medianIntSteps,aes(x=dt,y=steps)) + geom_line()+ xlab("5 minute interval time") + ylab("Number of Steps") + scale_x_datetime(labels = date_format("%H:%M"))
 ```
 
-![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-72.png) 
+![plot of chunk unnamed-chunk-7](./PA1_template_files/figure-html/unnamed-chunk-72.png) 
 
 ##### The interval, on average across all the days in the dataset, that contains the maximum number of steps is at 08:35  with a value of 206.1698 steps.
 
@@ -156,7 +153,7 @@ print(xt,type="html")
 ```
 
 <!-- html table generated in R 3.1.0 by xtable 1.7-4 package -->
-<!-- Sun Jan 18 19:01:54 2015 -->
+<!-- Sun Jan 18 19:15:33 2015 -->
 <table border=1>
 <tr> <th>  </th> <th> Date </th> <th> # of NA intervals </th>  </tr>
   <tr> <td align="right"> 1 </td> <td> 2012-10-01 </td> <td align="right"> 288 </td> </tr>
@@ -202,7 +199,7 @@ colnames(totalStepsClean)<-c("date","steps")
 ggplot(totalStepsClean, aes(x=factor(0),y=steps)) + geom_boxplot() +xlab("") +ylab("Steps")
 ```
 
-![plot of chunk unnamed-chunk-10](figure/unnamed-chunk-10.png) 
+![plot of chunk unnamed-chunk-10](./PA1_template_files/figure-html/unnamed-chunk-10.png) 
 </td>
 <td>
 
@@ -211,7 +208,7 @@ ggplot(totalStepsClean, aes(x=factor(0),y=steps)) + geom_boxplot() +xlab("") +yl
 ggplot(totalStepsClean, aes(x=steps)) + geom_histogram(binwidth=2000,colour="black", fill="white")+ xlab("Total steps per day") + ylab("Count")
 ```
 
-![plot of chunk unnamed-chunk-11](figure/unnamed-chunk-11.png) 
+![plot of chunk unnamed-chunk-11](./PA1_template_files/figure-html/unnamed-chunk-11.png) 
 </td>
 </tr>
 </table>
@@ -226,4 +223,4 @@ cwd$dt<-as.POSIXct(strptime(cwd$time,format("%H:%M")))
 ggplot(cwd,aes(x=dt,y=steps)) + geom_line() +facet_grid(dayType ~ .) + xlab("5 minute interval time") + ylab("Number of Steps") + scale_x_datetime(labels = date_format("%H:%M"))
 ```
 
-![plot of chunk unnamed-chunk-12](figure/unnamed-chunk-12.png) 
+![plot of chunk unnamed-chunk-12](./PA1_template_files/figure-html/unnamed-chunk-12.png) 
