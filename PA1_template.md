@@ -6,7 +6,8 @@ output: html_document
 ---
 
 
-```{r, warning=FALSE}
+
+```r
 #Load Libraries
 
 library(xtable)
@@ -35,13 +36,10 @@ stepsNa<-activity[!complete.cases(activity), ]
 
 # get a set with no zero values as well
 someSteps<-allSteps[ allSteps$steps > 0, ]
-
-
 ```
 
-```{r}
 
-
+```r
 #Calculate total number of steps taken per day
 totalSteps <- aggregate(allSteps$steps,by=list(allSteps$date),FUN=sum)
 colnames(totalSteps)<-c("date","steps")
@@ -49,29 +47,31 @@ colnames(totalSteps)<-c("date","steps")
 #### Daily Step Statistics
 <table border=1>
 <tr><td width="33%">
-  The mean is `r format( mean(totalSteps$steps),digits = 6)` .
-  <br> With standard deviation `r format( sd(totalSteps$steps),digits = 6)`<br>
-  The median is `r format( median(totalSteps$steps),digits = 6)`.
+  The mean is 10766.2 .
+  <br> With standard deviation 4269.18<br>
+  The median is 10765.
 
-```{r,fig.width=4}
 
+```r
 ggplot(totalSteps, aes(x=factor(0),y=steps)) + geom_boxplot() +xlab("") +ylab("Steps")
-````
+```
+
+![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3.png) 
 </td>
 <td>
-```{r}
 
+```r
 #Make a histogram of the total number of steps taken each day
 ggplot(totalSteps, aes(x=steps)) + geom_histogram(binwidth=2000,colour="black", fill="white") + xlab("Total steps per day") + ylab("Count")
-
 ```
+
+![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4.png) 
 </td>
 </tr>
 </table>
 
-```{r results='asis'}
 
-
+```r
 totalStepsNA <- aggregate(activity$steps,by=list(activity$date),FUN=sum)
 colnames(totalStepsNA)<-c("date","steps")
 setday<-cal(10,2012)
@@ -84,6 +84,11 @@ text(0.5,0.5, as.character(totalStepsNA$steps[i]))
 text(0.5,0.3, "Steps")
 }
 setday<-cal(11,2012)
+```
+
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-51.png) 
+
+```r
 for (i in 1:30){
 setday(i)
 if(is.na(totalStepsNA$steps[31+i])) 
@@ -92,14 +97,15 @@ else
 text(0.5,0.5, as.character(totalStepsNA$steps[31+i]))
 text(0.5,0.3, "Steps")
 }
-
 ```
+
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-52.png) 
 
 
 ### Daily Activity Pattern
 
-```{r}
 
+```r
 #Make a time series plot of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
 meanIntSteps <- aggregate(allSteps$steps,by=list(allSteps$interval,allSteps$time),FUN=mean)
 medianIntSteps <- aggregate(allSteps$steps,by=list(allSteps$interval,allSteps$time),FUN=median)
@@ -107,24 +113,33 @@ colnames(meanIntSteps)<-c("interval","time","steps")
 colnames(medianIntSteps)<-c("interval","time","steps")
 maxVal = meanIntSteps[which(meanIntSteps$steps == max(meanIntSteps$steps)),]$interval
 ```
-```{r}
+
+```r
 meanIntSteps$dt<-as.POSIXct(strptime(meanIntSteps$time,format("%H:%M")))
 medianIntSteps$dt<-as.POSIXct(strptime(medianIntSteps$time,format("%H:%M")))
 ggplot (meanIntSteps,aes(x=dt,y=steps)) + geom_line()+ xlab("5 minute interval time") + ylab("Number of Steps") + scale_x_datetime(labels = date_format("%H:%M"))
+```
+
+![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-71.png) 
+
+```r
 ggplot (medianIntSteps,aes(x=dt,y=steps)) + geom_line()+ xlab("5 minute interval time") + ylab("Number of Steps") + scale_x_datetime(labels = date_format("%H:%M"))
 ```
 
-##### The interval, on average across all the days in the dataset, that contains the maximum number of steps is at `r meanIntSteps[which(meanIntSteps$steps == max(meanIntSteps$steps)),]$time`  with a value of `r meanIntSteps[which(meanIntSteps$steps == max(meanIntSteps$steps)),]$steps` steps.
+![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-72.png) 
+
+##### The interval, on average across all the days in the dataset, that contains the maximum number of steps is at 08:35  with a value of 206.1698 steps.
 
 ### Imputing Missing Values
 
 The total number of rows with missing values is:
-`r nrow(stepsNa)`
+2304
 
  These occurred on the   
-`r nrow(stepsNa[!duplicated(stepsNa$date),])` 
+8 
  days listed here:
-```{r, results='asis'}
+
+```r
 qd<-unique(stepsNa$date)
 
 for(i in 1:length(qd)){
@@ -138,10 +153,24 @@ tableNA<-data.frame(qd,countNA)
 colnames(tableNA)<-c("Date","# of NA intervals")
 xt<-xtable(tableNA)
 print(xt,type="html")
-
 ```
+
+<!-- html table generated in R 3.1.0 by xtable 1.7-4 package -->
+<!-- Sun Jan 18 19:01:54 2015 -->
+<table border=1>
+<tr> <th>  </th> <th> Date </th> <th> # of NA intervals </th>  </tr>
+  <tr> <td align="right"> 1 </td> <td> 2012-10-01 </td> <td align="right"> 288 </td> </tr>
+  <tr> <td align="right"> 2 </td> <td> 2012-10-08 </td> <td align="right"> 288 </td> </tr>
+  <tr> <td align="right"> 3 </td> <td> 2012-11-01 </td> <td align="right"> 288 </td> </tr>
+  <tr> <td align="right"> 4 </td> <td> 2012-11-04 </td> <td align="right"> 288 </td> </tr>
+  <tr> <td align="right"> 5 </td> <td> 2012-11-09 </td> <td align="right"> 288 </td> </tr>
+  <tr> <td align="right"> 6 </td> <td> 2012-11-10 </td> <td align="right"> 288 </td> </tr>
+  <tr> <td align="right"> 7 </td> <td> 2012-11-14 </td> <td align="right"> 288 </td> </tr>
+  <tr> <td align="right"> 8 </td> <td> 2012-11-30 </td> <td align="right"> 288 </td> </tr>
+   </table>
 #####The strategy chosen for filling in all of the missing values in the dataset is to use the mean for that 5-minute interval.
-```{r}
+
+```r
 #
 
 #Create a new dataset that is equal to the original dataset but with the missing data filled in.
@@ -161,37 +190,40 @@ colnames(totalStepsClean)<-c("date","steps")
 
 <table border=1>
 <tr><td width="33%">
-  The mean is `r format( mean(totalStepsClean$steps),digits = 6)` .
-  <br> With standard deviation `r format( sd(totalStepsClean$steps),digits = 6)`<br>
-  The median is `r format( median(totalStepsClean$steps),digits = 6)`.  
+  The mean is 10766.2 .
+  <br> With standard deviation 3974.39<br>
+  The median is 10766.2.  
   Since mean values were chosen to replace NA values mean for the imputed data set is the same as the original data. 
   <br>
-  The median is equal to the mean, this occurs because there is a cluster of `r nrow(stepsNa[!duplicated(stepsNa$date),])`  days near the center of the distribution with values equal to the mean.
+  The median is equal to the mean, this occurs because there is a cluster of 8  days near the center of the distribution with values equal to the mean.
 
-```{r,fig.width=4}
 
+```r
 ggplot(totalStepsClean, aes(x=factor(0),y=steps)) + geom_boxplot() +xlab("") +ylab("Steps")
-````
+```
+
+![plot of chunk unnamed-chunk-10](figure/unnamed-chunk-10.png) 
 </td>
 <td>
-```{r}
 
+```r
 #Histogram of the total number of steps taken each day
 ggplot(totalStepsClean, aes(x=steps)) + geom_histogram(binwidth=2000,colour="black", fill="white")+ xlab("Total steps per day") + ylab("Count")
-
 ```
+
+![plot of chunk unnamed-chunk-11](figure/unnamed-chunk-11.png) 
 </td>
 </tr>
 </table>
 ## Weekends versus weekdays
-```{r}
 
-
+```r
 #Panel plot containing a time series plot  of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis). 
 
 cwd <- aggregate(cleanactivity$steps,by=list(cleanactivity$interval,cleanactivity$dayType,cleanactivity$time),FUN=mean)
 colnames(cwd)<-c("interval","dayType","time","steps")
 cwd$dt<-as.POSIXct(strptime(cwd$time,format("%H:%M")))
 ggplot(cwd,aes(x=dt,y=steps)) + geom_line() +facet_grid(dayType ~ .) + xlab("5 minute interval time") + ylab("Number of Steps") + scale_x_datetime(labels = date_format("%H:%M"))
+```
 
-````
+![plot of chunk unnamed-chunk-12](figure/unnamed-chunk-12.png) 
